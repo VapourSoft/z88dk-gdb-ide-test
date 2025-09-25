@@ -5,16 +5,134 @@
             "type": "gdb",
             "request": "attach",
             "name": "Attach to gdbserver",
-            "executable": "${workspaceRoot}/build/idetest.map",
-            "target": "127.0.0.1:1337",
+            "executable": "${workspaceFolder}/build/idetest.map",
+            "target": "192.168.112.1:3333",
             "remote": true,
-            "cwd": "${workspaceRoot}",
-            "gdbpath": "/usr/local/bin/z88dk-gdb",
+            "cwd": "${workspaceFolder}",
+            "gdbpath": "~/z88dk/bin/z88dk-gdb",
             "autorun": [
             ],
             "stopAtConnect": true,
             "printCalls": true,
-            //"showDevDebugOutput": true
-        }
+            "showDevDebugOutput": true,
+        },
+        {
+            "name": "Attach to z88dk gdbserver (cppdbg)",
+            "type": "cppdbg",
+            "request": "launch",
+            "MIMode": "gdb",
+            "miDebuggerPath": "~/z88dk/bin/z88dk-gdb",
+            "miDebuggerArgs": "-h 192.168.112.1 -p 3333 -x ${workspaceFolder}/build/idetest.map",            
+            "program": "${workspaceFolder}/build/idetest.map",    // local symbol-bearing binary
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": true,
+            "logging": { "engineLogging": true },
+            "setupCommands": [
+                { "description": "set async", "text": "-gdb-set target-async on", "ignoreFailures": true }
+            ],
+            "showDisplayString": true
+        }      
+        ,
+        {
+            "type": "dezog",
+            "request": "launch",
+            "name": "DeZog c debug demo",
+            "remoteType": "mame",
+            "mame": {
+                //"hostname": "192.168.1.79",
+                //"port": 23
+                "hostname": "192.168.112.1",
+                "port": 3333,
+            },
+            "z88dkv2": [
+                {
+                    "path": "${workspaceFolder}/src/c-idetest/*.lis",
+                    "srcDirs": [
+                        "src/c-idetest/"
+                    ],
+                    "mapFile": "build/idetest.map",
+                    "excludeFiles": []
+                } 
+
+            ], 
+            "topOfStack": "__register_sp",            
+            "startAutomatically": false,
+            "history": {
+                //  "reverseDebugInstructionCount": 10000,
+                //"codeCoverageEnabled": true
+                "reverseDebugInstructionCount": 0,
+                "codeCoverageEnabled": false
+            },
+            "commandsAfterLaunch": [
+                //"-sprites",
+                //"-patterns"
+            ],
+            "disassemblerArgs": {
+        		"numberOfLines": 20
+            },
+            "smartDisassemblerArgs": {
+                "lowerCase": false
+            },
+            "rootFolder": "${workspaceFolder}",
+
+            // "loadObjs": [
+            //     { "path": "${workspaceFolder}/build/testfunc.bin", "start": "0x0100" }
+            // ],            
+            "loadObjs": [
+                { "path": "${workspaceFolder}/build/idetest.bin", "start": "0x0100" }
+            ],             
+
+            "execAddress": "0x0100",            
+            "smallValuesMaximum": 513,
+            "tmpDir": ".tmp"
+       },
+       {
+            "type": "dezog",
+            "request": "launch",
+            "name": "DeZog asm debug demo",
+            "remoteType": "mame",
+            "mame": {
+                //"hostname": "192.168.1.79",
+                //"port": 23
+                "hostname": "192.168.112.1",
+                "port": 3333,
+            },
+            "z88dkv2": [
+                {
+                    "path": "${workspaceFolder}/src/asm-idetest/*.lis",
+                    "srcDirs": [
+                        "src/asm-idetest/"
+                    ],
+                    "mapFile": "build/testfunc.map",
+                    "excludeFiles": []
+                } 
+            ], 
+            "topOfStack": "__register_sp",            
+            "startAutomatically": false,
+            "history": {
+                //  "reverseDebugInstructionCount": 10000,
+                //"codeCoverageEnabled": true
+                "reverseDebugInstructionCount": 0,
+                "codeCoverageEnabled": false
+            },
+            "commandsAfterLaunch": [
+                //"-sprites",
+                //"-patterns"
+            ],
+            "disassemblerArgs": {
+        		"numberOfLines": 20
+            },
+            "smartDisassemblerArgs": {
+                "lowerCase": false
+            },
+            "rootFolder": "${workspaceFolder}",
+
+            "loadObjs": [
+                { "path": "${workspaceFolder}/build/testfunc.bin", "start": "0x0100" }
+            ],            
+            "execAddress": "0x0100",            
+            "smallValuesMaximum": 513,
+            "tmpDir": ".tmp"
+       }          
     ]
-}
+}        
